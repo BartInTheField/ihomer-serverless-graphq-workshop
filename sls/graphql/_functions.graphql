@@ -5,6 +5,8 @@ type Query {
     # Coins
     listCoins: [Coin]
     getCoin(coinId: ID!): Coin
+    # Profiles
+    listProfiles: [Profile]
 }
 
 type Mutation {

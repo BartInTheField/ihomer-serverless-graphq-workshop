@@ -6,6 +6,12 @@ type Coin {
     market: CoinMarket
 }
 
+type Profile {
+    pk: ID!
+    firstName: String!
+    lastName: String!
+}
+
 type CoinMarket {
     eur: Float!
     usd: Float!

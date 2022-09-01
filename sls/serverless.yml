@@ -28,6 +28,9 @@ functions:
         handler: src/handlers/coin/listCoins.handler
     getCoin:
         handler: src/handlers/coin/getCoin.handler
+    # Profiles
+    listProfiles:
+        handler: src/handlers/profile/listProfiles.handler
     # Database
     resetDatabase:
         handler: src/handlers/database/resetDatabase.handler
@@ -59,6 +62,11 @@ custom:
                 name: getCoin
                 config:
                     functionName: getCoin
+            # Profiles
+            -   type: AWS_LAMBDA
+                name: listProfiles
+                config:
+                    functionName: listProfiles
             # Database
             -   type: AWS_LAMBDA
                 name: resetDatabase
@@ -85,6 +93,12 @@ custom:
             -   dataSource: getCoin
                 type: Query
                 field: getCoin
+                request: false
+                response: false
+            # Profiles
+            -   dataSource: listProfiles
+                type: Query
+                field: listProfiles
                 request: false
                 response: false
             # Database
