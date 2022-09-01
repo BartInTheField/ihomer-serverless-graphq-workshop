@@ -92,3 +92,17 @@ We are running an offline version of serverless, this exposes a locally ran Grap
 ### Filling the database 
 
 Before we start we need to fill the database, a mutation is available to reset the database with some data. In the GraphQl playground execute the mutation `resetDatabase()`.
+
+## Exercise 1 - Profile
+
+Try to implement a new query `listProfiles`, return all profiles in our database.
+
+_TIP: Look at other Query's and the setup done in `serverless.yml`_
+
+## Exercise 2 - Wallet profile relation
+
+Add the profile relation to the wallet queries.
+
+## Exercise 3 - Add all relations to profile 
+
+Make sure you can query the wallet of the profile, the coin and the market price.
