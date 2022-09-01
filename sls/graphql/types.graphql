@@ -10,7 +10,7 @@ type Profile {
     pk: ID!
     firstName: String!
     lastName: String!
-    wallet: Wallet!
+    wallet: Wallet
 }
 
 type CoinMarket {
@@ -26,6 +26,6 @@ type PortfolioItem {
 type Wallet {
     pk: ID!
     portfolio: [PortfolioItem]
-    profile: Profile!
+    profile: Profile
 }
 

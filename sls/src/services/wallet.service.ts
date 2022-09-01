@@ -42,7 +42,7 @@ export class WalletService {
         }
 
         if(selectionSetList.includes('profile')) {
-            await this.enrichWithProfile(wallet);
+            await this.enrichWithProfile(wallet, selectionSetList);
         }
     }
 
@@ -67,9 +67,15 @@ export class WalletService {
         }
     }
 
-    private static async enrichWithProfile(wallet: Wallet) {
+    private static async enrichWithProfile(wallet: Wallet, selectionSetList: string[]) {
         try {
             wallet.profile = await ProfileService.getByWalletId(wallet.pk);
+
+            const profileSelectionSetList = selectionSetList
+                .filter((selectionSet) => selectionSet.startsWith('profile'))
+                .map((selectionSet) => selectionSet.replace('portfolio/', '')
+            );
+            await ProfileService.enrich(wallet.profile, profileSelectionSetList);
         } catch (e) {
             console.log(e);
         }
