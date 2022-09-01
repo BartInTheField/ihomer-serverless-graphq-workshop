@@ -11,11 +11,9 @@ provider:
     region: ${env:REGION}
     environment:
         DYNAMO_URL: ${env:DYNAMO_URL}
-        DYNAMO_TABLE: ${env:DYNAMO_TABLE}
         REGION: ${env:REGION}
         AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
         AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
-        UNIQUE_ID: ${env:UNIQUE_ID}
     apiGateway:
         shouldStartNameWithService: true
 
@@ -30,13 +28,17 @@ functions:
         handler: src/handlers/coin/listCoins.handler
     getCoin:
         handler: src/handlers/coin/getCoin.handler
+    # Database
+    resetDatabase:
+        handler: src/handlers/database/resetDatabase.handler
+        timeout: 60
 
 custom:
     appSync:
         name: api
         authenticationType: API_KEY
         schema:
-            - graphql/_query.graphql
+            - graphql/_functions.graphql
             - graphql/types.graphql
         dataSources:
             # Wallets
@@ -57,6 +59,11 @@ custom:
                 name: getCoin
                 config:
                     functionName: getCoin
+            # Database
+            -   type: AWS_LAMBDA
+                name: resetDatabase
+                config:
+                    functionName: resetDatabase
         mappingTemplates:
             # Wallets
             -   dataSource: listWallets
@@ -78,6 +85,12 @@ custom:
             -   dataSource: getCoin
                 type: Query
                 field: getCoin
+                request: false
+                response: false
+            # Database
+            -   dataSource: resetDatabase
+                type: Mutation
+                field: resetDatabase
                 request: false
                 response: false
 

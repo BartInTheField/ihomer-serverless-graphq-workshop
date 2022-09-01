@@ -1,12 +1,14 @@
 import {Coin} from "./coin.model";
+import {Profile} from './profile.model';
 
 export interface Wallet {
     pk: string;
     portfolio: {
         amount: number;
         coinId: string;
-        coin: WalletDatabaseCoin | Coin
+        coin?: WalletDatabaseCoin | Coin
     }[];
+    profile?: Profile;
 }
 
 export interface WalletDatabaseCoin {

@@ -8,7 +8,7 @@ export class WalletService {
         try {
             const result = await getDynamoClient()
             .get({
-                TableName: 'wallet',
+                TableName: 'wallets',
                 Key: {
                     pk: walletId,
                 },
@@ -25,7 +25,7 @@ export class WalletService {
         try {
             const result = await getDynamoClient()
                 .scan({
-                    TableName: 'wallet'
+                    TableName: 'wallets'
                 })
                 .promise();
             return result.Items as Wallet[];

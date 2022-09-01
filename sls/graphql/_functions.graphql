@@ -6,3 +6,7 @@ type Query {
     listCoins: [Coin]
     getCoin(coinId: ID!): Coin
 }
+
+type Mutation {
+    resetDatabase: Boolean
+}
