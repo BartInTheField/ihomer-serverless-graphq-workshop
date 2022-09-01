@@ -18,4 +18,20 @@ export class ProfileService {
             throw e;
         }
     }
+
+    static async getByWalletId(walletId: string): Promise<Profile> {
+        try {
+            // We are using scan here, a better approach would be to add a index for wallet id, and query on that index
+            const result = await getDynamoClient()
+                .scan({
+                    TableName: 'profiles',
+                })
+                .promise();
+            return (result.Items as Profile[])
+                .find((profile) => profile.walletId === walletId);
+        } catch (e) {
+            console.log(e);
+            throw e;
+        }
+    }
 }

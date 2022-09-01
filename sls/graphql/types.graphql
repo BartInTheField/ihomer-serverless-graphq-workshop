@@ -25,5 +25,6 @@ type PortfolioItem {
 type Wallet {
     pk: ID!
     portfolio: [PortfolioItem]
+    profile: Profile!
 }
 

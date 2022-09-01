@@ -17,7 +17,7 @@ above `3.0.0` should be fine.
 Make sure to install Docker Desktop. We will use this to run a local instance of DynamoDb. DynamoDb is a NoSQL database
 service in AWS.
 
-The Docker website has some great resources: https://www.docker.com/get-started.
+The Docker website has some great resources: https://www.docker.com/getByWalletId-started.
 
 _NOTE: To use Docker on Windows, you need to enable Hyper-V in BIOS. Every BIOS has its own way to do this. It is also
 known as virtualization._
