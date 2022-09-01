@@ -97,12 +97,26 @@ Before we start we need to fill the database, a mutation is available to reset t
 
 Try to implement a new query `listProfiles`, return all profiles in our database.
 
+Return 
+- pk 
+- firstName
+- lastName 
+
 _TIP: Look at other Query's and the setup done in `serverless.yml`_
 
 ## Exercise 2 - Wallet profile relation
 
 Add the profile relation to the wallet queries.
 
+listWallet
+- profile
+
+getWallet
+- profile 
+
 ## Exercise 3 - Add all relations to profile 
 
 Make sure you can query the wallet of the profile, the coin and the market price.
+
+
+_TIP: Watch out for relation inception_
