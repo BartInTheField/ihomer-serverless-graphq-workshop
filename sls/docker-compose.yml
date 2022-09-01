@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  dynamodb:
+    build:
+      context: .
+      dockerfile: dynamodb-local/Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - aws-rest-api-dynamodb:/home/dynamodblocal/db
+  dynamodb-gui:
+    image: aaronshaf/dynamodb-admin
+    environment:
+      DYNAMO_ENDPOINT: http://172.17.0.1:8000
+    ports:
+      - 8001:8001
+
+volumes:
+  aws-rest-api-dynamodb:
+    driver: local

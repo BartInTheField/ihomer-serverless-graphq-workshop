@@ -1,0 +1,102 @@
+service: crypto-exchange
+useDotenv: true
+
+frameworkVersion: '3'
+
+provider:
+    name: aws
+    runtime: nodejs12.x
+    lambdaHashingVersion: 20201221
+    stage: dev
+    region: ${env:REGION}
+    environment:
+        DYNAMO_URL: ${env:DYNAMO_URL}
+        DYNAMO_TABLE: ${env:DYNAMO_TABLE}
+        REGION: ${env:REGION}
+        AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+        AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+        UNIQUE_ID: ${env:UNIQUE_ID}
+    apiGateway:
+        shouldStartNameWithService: true
+
+functions:
+    # Wallets
+    listWallets:
+        handler: src/handlers/wallet/listWallets.handler
+    getWallet:
+        handler: src/handlers/wallet/getWallet.handler
+    # Coins
+    listCoins:
+        handler: src/handlers/coin/listCoins.handler
+    getCoin:
+        handler: src/handlers/coin/getCoin.handler
+
+custom:
+    appSync:
+        name: api
+        authenticationType: API_KEY
+        schema:
+            - graphql/_query.graphql
+            - graphql/types.graphql
+        dataSources:
+            # Wallets
+            -   type: AWS_LAMBDA
+                name: getWallet
+                config:
+                    functionName: getWallet
+            -   type: AWS_LAMBDA
+                name: listWallets
+                config:
+                    functionName: listWallets
+            # Coins
+            -   type: AWS_LAMBDA
+                name: listCoins
+                config:
+                    functionName: listCoins
+            -   type: AWS_LAMBDA
+                name: getCoin
+                config:
+                    functionName: getCoin
+        mappingTemplates:
+            # Wallets
+            -   dataSource: listWallets
+                type: Query
+                field: listWallets
+                request: false
+                response: false
+            -   dataSource: getWallet
+                type: Query
+                field: getWallet
+                request: false
+                response: false
+            # Coins
+            -   dataSource: listCoins
+                type: Query
+                field: listCoins
+                request: false
+                response: false
+            -   dataSource: getCoin
+                type: Query
+                field: getCoin
+                request: false
+                response: false
+
+    appsync-simulator:
+        dynamoDb:
+            region: ${env:REGION}
+            endpoint: http://localhost:8000
+            accessKeyId: ${env:AWS_ACCESS_KEY_ID}
+            secretAccessKey: ${env:AWS_SECRET_ACCESS_KEY}
+        apiKey: da2-fakeApiId123456
+        location: .build
+        watch: false
+
+
+package:
+    patterns:
+        - 'graphql/**'
+
+plugins:
+    - serverless-plugin-typescript
+    - serverless-appsync-simulator
+    - serverless-offline

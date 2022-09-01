@@ -1,0 +1,8 @@
+type Query {
+    # Wallets
+    listWallets: [Wallet]
+    getWallet(walletId: ID!): Wallet
+    # Coins
+    listCoins: [Coin]
+    getCoin(coinId: ID!): Coin
+}

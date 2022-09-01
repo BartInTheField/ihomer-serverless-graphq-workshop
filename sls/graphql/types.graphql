@@ -1,0 +1,23 @@
+type Coin {
+    pk: ID!
+    name: String!
+    symbol: String!
+    amount: Float!
+    market: CoinMarket
+}
+
+type CoinMarket {
+    eur: Float!
+    usd: Float!
+}
+
+type PortfolioItem {
+    coin: Coin!
+    amount: Float!
+}
+
+type Wallet {
+    pk: ID!
+    portfolio: [PortfolioItem]
+}
+
