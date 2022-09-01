@@ -3,6 +3,7 @@ import {Wallet} from "../models/wallet.model";
 import {CoinService} from "./coin.service";
 import {Coin} from "../models/coin.model";
 import {Profile} from '../models/profile.model';
+import {WalletService} from './wallet.service';
 
 export class ProfileService {
     static async list(): Promise<Profile[]> {
@@ -28,10 +29,24 @@ export class ProfileService {
                 })
                 .promise();
             return (result.Items as Profile[])
-                .find((profile) => profile.walletId === walletId);
+                .find((profile) => profile.walletId === walletId) as Profile
         } catch (e) {
             console.log(e);
             throw e;
+        }
+    }
+
+    static async enrich(profile: Profile, selectionSetList: string[]): Promise<void> {
+        console.log('PROFILE SELECTION SET LIST', selectionSetList);
+
+        if (selectionSetList.includes('wallet')) {
+            profile.wallet = await WalletService.get(profile.walletId)
+
+            const walletSellectionList = selectionSetList
+                .filter((selectionSet) => selectionSet.startsWith('wallet'))
+                .map((selectionSet) => selectionSet.replace('wallet/', '')
+                );
+            await WalletService.enrich(profile.wallet, walletSellectionList);
         }
     }
 }

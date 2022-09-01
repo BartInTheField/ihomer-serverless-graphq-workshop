@@ -37,7 +37,6 @@ export class WalletService {
     }
 
     static async enrich(wallet: Wallet, selectionSetList: string[]): Promise<void> {
-        console.log('WALLET SELECTION SET LIST', selectionSetList);
         if (selectionSetList.includes('portfolio/coin')) {
             await this.enrichWithCoins(wallet, selectionSetList);
         }
