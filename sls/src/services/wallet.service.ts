@@ -39,12 +39,10 @@ export class WalletService {
         console.log('WALLET SELECTION SET LIST', selectionSetList);
         if (selectionSetList.includes('portfolio/coin')) {
             try {
-                const portfolioCoinRequests = wallet.portfolio.map(
-                    async (portfolio) => ({ ...portfolio, coin: await CoinService.get(portfolio.coinId) })
-                );
-                wallet.portfolio = await Promise.all(portfolioCoinRequests);
-
-                // We also want to enrich the coin
+                for (let i = 0; i < wallet.portfolio.length + 1; i++) {
+                    const coinId = wallet.portfolio[i].coinId;
+                    wallet.portfolio[i] = { ...wallet.portfolio[i], coin: await CoinService.get(coinId) }
+                }
 
                 // Get all coin  selectionSets and remove `portfolio/coin/` from it.
                 // Result is for example: ['market', 'market/eur', 'market/usd']
@@ -52,7 +50,6 @@ export class WalletService {
                     .filter((selectionSet) => selectionSet.startsWith('portfolio/coin'))
                     .map((selectionSet) => selectionSet.replace('portfolio/coin/', '')
                 );
-
                 for (const portfolioElement of wallet.portfolio) {
                     await CoinService.enrich(portfolioElement.coin as Coin, coinSelectionSetList);
                 }
