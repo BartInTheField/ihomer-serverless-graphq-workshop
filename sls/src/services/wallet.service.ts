@@ -49,7 +49,7 @@ export class WalletService {
 
     private static async enrichWithCoins(wallet: Wallet, selectionSetList: string[]) {
         try {
-            for (let i = 0; i < wallet.portfolio.length + 1; i++) {
+            for (let i = 0; i < wallet.portfolio.length; i++) {
                 const coinId = wallet.portfolio[i].coinId;
                 wallet.portfolio[i] = {...wallet.portfolio[i], coin: await CoinService.get(coinId)}
             }
